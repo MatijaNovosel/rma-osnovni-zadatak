@@ -1,4 +1,4 @@
-# rmb-osnovni-zadatak
+# rma-osnovni-zadatak
 Osnovni zadatak za razvoj mobilnih aplikacija u Flutteru.
 
 - Instalirati Flutter SDK i postaviti virtualni uređaj
