@@ -33,11 +33,6 @@ class TodoItemWidget extends StatelessWidget {
                 onPressed: () => removeEntry(content.id),
               ),
               const SizedBox(width: 8),
-              TextButton(
-                child: const Text('Edit'),
-                onPressed: () {/* ... */},
-              ),
-              const SizedBox(width: 8),
             ],
           ),
         ],

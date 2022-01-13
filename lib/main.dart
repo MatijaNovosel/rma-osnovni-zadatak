@@ -37,8 +37,49 @@ class _HomePageState extends State<HomePage> {
     TodoItem(id: 3, text: "Item 3"),
   ];
 
-  void _addNewTodoItem() {
-    //
+  final TextEditingController _textFieldController = TextEditingController();
+
+  Future<dynamic> _displayDialog(BuildContext context) async {
+    // alter the app state to show a dialog
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add a task to your list'),
+          content: TextField(
+            controller: _textFieldController,
+            decoration: const InputDecoration(hintText: 'Enter todo item'),
+          ),
+          actions: <Widget>[
+            // add button
+            TextButton(
+              child: const Text('ADD'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _addNewTodoItem(_textFieldController.text);
+                _textFieldController.text = "";
+              },
+            ),
+            // Cancel button
+            TextButton(
+              child: const Text('CANCEL'),
+              onPressed: () {
+                _textFieldController.text = "";
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  void _addNewTodoItem(String text) {
+    setState(() {
+      _todoItems.add(
+        TodoItem(id: _todoItems.length + 1, text: text),
+      );
+    });
   }
 
   void _removeEntry(int id) {
@@ -55,8 +96,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: ListView(
           children: _todoItems.isEmpty
               ? [
                   const Padding(
@@ -83,7 +123,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addNewTodoItem,
+        onPressed: () => _displayDialog(context),
         tooltip: 'Add new todo item',
         child: const Icon(Icons.add),
       ),
