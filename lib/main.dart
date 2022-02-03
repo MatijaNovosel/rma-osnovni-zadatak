@@ -11,36 +11,64 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Todo app',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomePage(title: 'Todo app'),
+      home: TodoPage(title: 'Todo app'),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.title}) : super(key: key);
+class TodoPage extends StatefulWidget {
   final String title;
 
+  const TodoPage({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<TodoPage> createState() => _TodoPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _TodoPageState extends State<TodoPage> {
   final List<TodoItem> _todoItems = [
-    TodoItem(id: 1, text: "Item 1"),
-    TodoItem(id: 2, text: "Item 2"),
-    TodoItem(id: 3, text: "Item 3"),
+    TodoItem(
+      id: 1,
+      text: "Item 1",
+      createdAt: DateTime.now(),
+      done: false,
+    ),
+    TodoItem(
+      id: 2,
+      text: "Item 2",
+      createdAt: DateTime.now(),
+      done: false,
+    ),
+    TodoItem(
+      id: 3,
+      text: "Item 3",
+      createdAt: DateTime.now(),
+      done: false,
+    ),
   ];
 
   final TextEditingController _textFieldController = TextEditingController();
 
+  void _addNewTodoItem(String text) {
+    setState(() {
+      _todoItems.add(
+        TodoItem(
+          id: _todoItems.length + 1,
+          text: text,
+          done: false,
+          createdAt: DateTime.now(),
+        ),
+      );
+    });
+  }
+
   Future<dynamic> _displayDialog(BuildContext context) async {
-    // alter the app state to show a dialog
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -51,7 +79,6 @@ class _HomePageState extends State<HomePage> {
             decoration: const InputDecoration(hintText: 'Enter todo item'),
           ),
           actions: <Widget>[
-            // add button
             TextButton(
               child: const Text('ADD'),
               onPressed: () {
@@ -60,7 +87,6 @@ class _HomePageState extends State<HomePage> {
                 _textFieldController.text = "";
               },
             ),
-            // Cancel button
             TextButton(
               child: const Text('CANCEL'),
               onPressed: () {
@@ -72,20 +98,6 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
-  }
-
-  void _addNewTodoItem(String text) {
-    setState(() {
-      _todoItems.add(
-        TodoItem(id: _todoItems.length + 1, text: text),
-      );
-    });
-  }
-
-  void _removeEntry(int id) {
-    setState(() {
-      _todoItems.removeWhere((todoItem) => todoItem.id == id);
-    });
   }
 
   @override
@@ -116,7 +128,6 @@ class _HomePageState extends State<HomePage> {
                   .map(
                     (todoItem) => TodoItemWidget(
                       content: todoItem,
-                      removeEntry: _removeEntry,
                     ),
                   )
                   .toList(),

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:rma_osnovni_zadatak/models/todo_item.dart';
+import 'package:intl/intl.dart';
 
 class TodoItemWidget extends StatelessWidget {
   final TodoItem content;
-  final Function removeEntry;
 
-  const TodoItemWidget({Key? key, required this.content, required this.removeEntry}) : super(key: key);
+  const TodoItemWidget({
+    Key? key,
+    required this.content,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +26,16 @@ class TodoItemWidget extends StatelessWidget {
             ),
             leading: const Icon(Icons.notes),
             iconColor: Colors.blue,
-            subtitle: const Text('Added at 29.12.2021.'),
+            subtitle: Text(
+              'Added at ${DateFormat("dd.MM.yyyy. HH:mm").format(content.createdAt)}',
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               TextButton(
-                child: const Text('Remove'),
-                onPressed: () => removeEntry(content.id),
+                child: const Text('Mark as done'),
+                onPressed: () => {},
               ),
               const SizedBox(width: 8),
             ],
