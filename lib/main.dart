@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'models/todo_item.dart';
 import 'widgets/todo_item.dart';
+import 'package:collection/collection.dart';
 
 void main() {
   runApp(const Main());
@@ -68,6 +69,15 @@ class _TodoPageState extends State<TodoPage> {
     });
   }
 
+  void _markItemAsDone(int id) {
+    TodoItem? item = _todoItems.firstWhereOrNull((element) => element.id == id);
+    if (item != null) {
+      setState(() {
+        item.done = true;
+      });
+    }
+  }
+
   Future<dynamic> _displayDialog(BuildContext context) async {
     return showDialog(
       context: context,
@@ -128,6 +138,9 @@ class _TodoPageState extends State<TodoPage> {
                   .map(
                     (todoItem) => TodoItemWidget(
                       content: todoItem,
+                      onMarkAsDone: () {
+                        _markItemAsDone(todoItem.id);
+                      },
                     ),
                   )
                   .toList(),

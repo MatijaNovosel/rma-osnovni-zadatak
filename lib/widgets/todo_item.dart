@@ -4,10 +4,12 @@ import 'package:intl/intl.dart';
 
 class TodoItemWidget extends StatelessWidget {
   final TodoItem content;
+  final VoidCallback onMarkAsDone;
 
   const TodoItemWidget({
     Key? key,
     required this.content,
+    required this.onMarkAsDone,
   }) : super(key: key);
 
   @override
@@ -24,22 +26,24 @@ class TodoItemWidget extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            leading: const Icon(Icons.notes),
+            leading: Icon(content.done ? Icons.done_all : Icons.notes),
             iconColor: Colors.blue,
             subtitle: Text(
               'Added at ${DateFormat("dd.MM.yyyy. HH:mm").format(content.createdAt)}',
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              TextButton(
-                child: const Text('Mark as done'),
-                onPressed: () => {},
-              ),
-              const SizedBox(width: 8),
-            ],
-          ),
+          content.done
+              ? Container()
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    TextButton(
+                      child: const Text('Mark as done'),
+                      onPressed: () => onMarkAsDone(),
+                    ),
+                    const SizedBox(width: 8),
+                  ],
+                ),
         ],
       ),
     );
