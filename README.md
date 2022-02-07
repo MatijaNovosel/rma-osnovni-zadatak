@@ -11,3 +11,5 @@ Osnovni zadatak za razvoj mobilnih aplikacija u Flutteru.
 - Upravljanje stanjem tako da se u njega ubaci par TODO stavki i zatim generira popisa uz pomoć petlje (ne buildera) s overflowanjem u ListViewu
 - Dodatak dijaloga za upis teksta nove stavke (TextController)
 - Dodatak novih stavki uz pomoć dijaloga
+
+![image](https://user-images.githubusercontent.com/36193643/152852760-5461efd3-a7c6-43bf-910a-468cf2ec9d1c.png)
